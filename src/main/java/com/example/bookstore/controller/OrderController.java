@@ -20,33 +20,32 @@ public class OrderController {
     //create order data
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> insertOrder(@Valid @RequestBody OrderDTO orderdto){
-        OrderData orderData = orderService.insert(orderdto);
+        String orderData = orderService.insert(orderdto);
         ResponseDTO responseDTO = new ResponseDTO("Order placed successfully !",orderData);
         return new ResponseEntity(responseDTO, HttpStatus.CREATED);
     }
 
     //get all order details
-    @GetMapping("/getallorders")
-    public ResponseEntity<ResponseDTO> getAllOrder(){
-        List<OrderData> orderData = orderService.getAllOrder();
+    @GetMapping("/getallorders/{token}")
+    public ResponseEntity<ResponseDTO> getAllOrder(@PathVariable String token){
+        List<OrderData> orderData = orderService.getAllOrder(token);
         ResponseDTO responseDTO = new ResponseDTO("All records retrieved successfully !",orderData);
         return new ResponseEntity(responseDTO,HttpStatus.OK);
     }
 
-    //get all order details by id
-    @GetMapping("/get/{id}")
-    public ResponseEntity<ResponseDTO> getOrderById(@PathVariable int id){
-        OrderData orderData = orderService.getOrderById(id);
+    //get order details by id
+    @GetMapping("get/{token}")
+    public ResponseEntity<ResponseDTO> getOrderById(@PathVariable String token){
+        OrderData orderData = orderService.getOrderById(token);
         ResponseDTO responseDTO = new ResponseDTO("get call successfully !",orderData);
         return new ResponseEntity(responseDTO,HttpStatus.OK);
     }
 
     //cancel order by orderid and userid
-    @GetMapping("/cancelorder/{id}/{userId}")
-    public ResponseEntity<ResponseDTO> cancelOrderById(@PathVariable int id,@PathVariable int userId){
-        OrderData orderData = orderService.cancelOrderById(id,userId);
+    @PutMapping("/cancelorder/{token}/{userId}")
+    public ResponseEntity<ResponseDTO> cancelOrderById(@PathVariable String token,@PathVariable int userId){
+        OrderData orderData = orderService.cancelOrderById(token,userId);
         ResponseDTO responseDTO = new ResponseDTO("order record canceled successfully !",orderData);
         return new ResponseEntity(responseDTO,HttpStatus.ACCEPTED);
     }
-
 }

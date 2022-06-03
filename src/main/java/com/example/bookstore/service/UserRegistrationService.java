@@ -42,7 +42,7 @@ public class UserRegistrationService implements IUserRegistrationService{
         if(isContactPresent.isPresent()) {
             List<UserRegistrationData> listAddressBook=userRegistrationRepository.findAll();
             mailService.sendEmail("akshuh818@gmail.com", "Test Email", "Get your data with this token, hii: "
-                    +isContactPresent.get().getEmail()+"Please Click here to get data-> "
+                    +isContactPresent.get().getFirstName()+"Please Click here to get data-> "
                     +"http://localhost:8081/addressBook/retrieve/"+token);
             return listAddressBook;
         }else {

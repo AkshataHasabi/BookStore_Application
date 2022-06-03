@@ -13,6 +13,5 @@ public interface IUserRegistrationService {
     UserRegistrationData getUserById(String token);
     List<UserRegistrationData> getUserByEmail(String token);
     UserRegistrationData updateUser(String token,UserRegistrationDTO userRegistrationDTO);
-
     Optional<UserRegistrationData> login(LoginDTO loginDTO);
 }

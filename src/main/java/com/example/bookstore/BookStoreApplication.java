@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 @Slf4j
 public class BookStoreApplication {
-
     public static void main(String[] args) {
         System.out.println("welcome to AddressBookApp development");
         ApplicationContext context=SpringApplication.run(BookStoreApplication.class, args);

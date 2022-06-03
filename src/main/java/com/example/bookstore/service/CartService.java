@@ -8,6 +8,8 @@ import com.example.bookstore.exception.BookStoreException;
 import com.example.bookstore.repository.BookRepository;
 import com.example.bookstore.repository.CartRepository;
 import com.example.bookstore.repository.UserRegistrationRepository;
+import com.example.bookstore.util.EmailSenderService;
+import com.example.bookstore.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,10 @@ public class CartService implements ICartService{
     private BookRepository bookRepository;
     @Autowired
     private UserRegistrationRepository userRegistrationRepository;
+    @Autowired
+    private TokenUtil util;
+    @Autowired
+    private EmailSenderService mailService;
 
     //save cart details in repository method
     @Override
@@ -34,7 +40,7 @@ public class CartService implements ICartService{
             cartRepository.save(cartData);
             return cartData;
         } else {
-            throw new BookStoreException("Bookdata or userregistrationdatac not found");
+            throw new BookStoreException("Bookdata or userregistrationdata not found");
         }
     }
 
