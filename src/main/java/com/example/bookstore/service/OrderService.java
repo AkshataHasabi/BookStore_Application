@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-public class OrderService implements IOrderService{
+public class OrderService implements IOrderService {
     @Autowired
     private BookRepository bookRepository;
     @Autowired
@@ -31,8 +31,8 @@ public class OrderService implements IOrderService{
         Optional<BookData> book = bookRepository.findById(orderDTO.getBookId());
         Optional<UserRegistrationData> user = userRegistrationRepository.findById(orderDTO.getUserId());
         if (book.isPresent() && user.isPresent()) {
-            if (orderDTO.getQuantity()<= book.get().getQuantity()) {
-                int quantity = book.get().getQuantity()-orderDTO.getQuantity();
+            if (orderDTO.getQuantity() <= book.get().getQuantity()) {
+                int quantity = book.get().getQuantity() - orderDTO.getQuantity();
                 book.get().setQuantity(quantity);
                 bookRepository.save(book.get());
                 OrderData newOrder = new OrderData(book.get().getPrice(), orderDTO.getQuantity(), orderDTO.getAddress(), book.get(), user.get(), orderDTO.isCancel());
@@ -68,44 +68,15 @@ public class OrderService implements IOrderService{
         }
     }
 
-   //update order by id
+    //cancel order by orderid and userid
     @Override
-    public OrderData updateOrderById(int id, OrderDTO orderDTO) {
+    public OrderData cancelOrderById(int id, int userId) {
+        //orderid,userid
         Optional<OrderData> order = orderRepository.findById(id);
-        Optional<BookData> book = bookRepository.findById(orderDTO.getBookId());
-        Optional<UserRegistrationData> user = userRegistrationRepository.findById(orderDTO.getUserId());
-        if (order.isPresent()) {
-            if (book.isPresent() && user.isPresent()) {
-                if (orderDTO.getQuantity() <= book.get().getQuantity()) {
-                    int quantity = book.get().getQuantity()-orderDTO.getQuantity();
-                    book.get().setQuantity(quantity);
-                    bookRepository.save(book.get());
-                    OrderData orderData = new OrderData(id, book.get().getPrice(), orderDTO.getQuantity(), orderDTO.getAddress(), book.get(), user.get(), orderDTO.isCancel());
-                    orderRepository.save(orderData);
-                    log.info("Order record updated successfully for id " + id);
-                    return orderData;
-                } else {
-                    throw new BookStoreException("Requested quantity is not available");
-                }
-            } else {
-                throw new BookStoreException("Book or User doesn't exists");
-
-            }
-
-        } else {
-            throw new BookStoreException("Order Record doesn't exists");
-        }
-    }
-
-    //delete order by id
-    @Override
-    public OrderData deleteOrderData(int id) {
-        Optional<OrderData> orderData = orderRepository.findById(id);
-        if (orderData.isPresent()) {
-            orderRepository.deleteById(id);
-            log.info("Order  deleted successfully for id " + id);
-            return orderData.get();
-
+        Optional<UserRegistrationData> user = userRegistrationRepository.findById(userId);
+        if (order.isPresent() && user.isPresent()) {
+            order.get().setCancel(true);
+            return orderRepository.save(order.get());
         } else {
             throw new BookStoreException("Order Record doesn't exists");
         }

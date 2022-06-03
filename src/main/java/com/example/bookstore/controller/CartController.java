@@ -58,5 +58,4 @@ public class CartController {
         ResponseDTO responseDTO=new ResponseDTO("deleted succesfully",id);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
-
 }

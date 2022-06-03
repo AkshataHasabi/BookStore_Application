@@ -41,19 +41,12 @@ public class OrderController {
         return new ResponseEntity(responseDTO,HttpStatus.OK);
     }
 
-    //update order details by id
-    @PutMapping("/updateorder/{id}")
-    public ResponseEntity<ResponseDTO> updateOrderById(@PathVariable int id,@Valid @RequestBody OrderDTO orderdto){
-        OrderData orderData = orderService.updateOrderById(id,orderdto);
-        ResponseDTO responseDTO = new ResponseDTO("order record updated successfully !",orderData);
+    //cancel order by orderid and userid
+    @GetMapping("/cancelorder/{id}/{userId}")
+    public ResponseEntity<ResponseDTO> cancelOrderById(@PathVariable int id,@PathVariable int userId){
+        OrderData orderData = orderService.cancelOrderById(id,userId);
+        ResponseDTO responseDTO = new ResponseDTO("order record canceled successfully !",orderData);
         return new ResponseEntity(responseDTO,HttpStatus.ACCEPTED);
     }
 
-    //delete order details by id
-    @DeleteMapping("/deleteorder/{id}")
-    public ResponseEntity<ResponseDTO> deleteOrder(@PathVariable int id){
-        OrderData orderData = orderService.deleteOrderData(id);
-        ResponseDTO responseDTO = new ResponseDTO(" order record deleted successfully !",orderData);
-        return new ResponseEntity(responseDTO,HttpStatus.ACCEPTED);
-    }
 }

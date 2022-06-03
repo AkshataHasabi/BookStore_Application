@@ -11,6 +11,5 @@ public interface IOrderService {
      OrderData insert(OrderDTO orderDTO);
      List<OrderData> getAllOrder();
      OrderData getOrderById(int id);
-     OrderData updateOrderById(int id,OrderDTO orderDTO);
-     OrderData deleteOrderData(int id);
-}
+     OrderData cancelOrderById(int id, int userId);
+     }
