@@ -15,17 +15,20 @@ public class BookService implements IBookService{
     @Autowired
     private BookRepository bookRepository;
 
+    //save book details to repo
     @Override
     public BookData insert(BookDTO bookDTO) {
         BookData bookData=new BookData(bookDTO);
         return bookRepository.save(bookData);
     }
 
+    //get all bookdata by findAll method
     @Override
     public List<BookData> getAllBooks() {
         return bookRepository.findAll();
     }
 
+    //get bookdata by id
     @Override
     public BookData getBooksById(int id) {
         Optional<BookData> bookData=bookRepository.findById(id);
@@ -36,6 +39,7 @@ public class BookService implements IBookService{
         }
     }
 
+    //get bookdata by bookname
     @Override
     public List<BookData> getBooksByName(String bookName) {
         List<BookData> findBook=bookRepository.findBookByName(bookName);
@@ -45,6 +49,7 @@ public class BookService implements IBookService{
         return findBook;
     }
 
+    //get bookdata by authername
     @Override
     public List<BookData> getBooksByAutherName(String autherName) {
         List<BookData> findBook=bookRepository.findBookByAutherName(autherName);
@@ -54,6 +59,7 @@ public class BookService implements IBookService{
         return findBook;
     }
 
+    //update bookdata by id
     @Override
     public BookData updateBooksById(int id, BookDTO bookDTO) {
         Optional<BookData> bookData=bookRepository.findById(id);
@@ -66,6 +72,7 @@ public class BookService implements IBookService{
         }
     }
 
+    //update bookdata by quantity
     @Override
     public BookData updataBooksByQuantity(int id, int quantity) {
         Optional<BookData> bookData=bookRepository.findById(id);
@@ -79,16 +86,19 @@ public class BookService implements IBookService{
         }
     }
 
+    //sort bookdata in ascending order
     @Override
     public List<BookData> sortBookDataAsc() {
         return bookRepository.sortBookDataAsc();
     }
 
+    //sort bookdata in descending order
     @Override
     public List<BookData> sortBookDataDesc() {
         return bookRepository.sortBookDataDesc();
     }
 
+    //delete bookdata by id from repository
     @Override
     public void deletebookData(int id) {
         Optional<BookData> bookData =bookRepository.findById(id);
