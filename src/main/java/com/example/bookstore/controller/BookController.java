@@ -19,17 +19,17 @@ public class BookController {
     private IBookService iBookService;
 
     //get all books details
-    @GetMapping("/get")
-    public ResponseEntity<ResponseDTO> getAllBooks(){
-        List<BookData> bookData=iBookService.getAllBooks();
+    @GetMapping("/get/{token}")
+    public ResponseEntity<ResponseDTO> getAllBooks(@PathVariable String token){
+        List<BookData> bookData=iBookService.getAllBooks(token);
         ResponseDTO responseDTO=new ResponseDTO("Get call Success",bookData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     //get books details by id
-    @GetMapping("id/{id}")
-    public ResponseEntity<ResponseDTO> getBookById(@PathVariable int id){
-        BookData bookData=iBookService.getBooksById(id);
+    @GetMapping("id/{token}")
+    public ResponseEntity<ResponseDTO> getBookById(@PathVariable String token){
+        BookData bookData=iBookService.getBooksById(token);
         ResponseDTO responseDTO=new ResponseDTO("Get call Success for id successfull",bookData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
@@ -53,32 +53,32 @@ public class BookController {
     //create book details
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> addBooks(@Valid @RequestBody BookDTO bookDTO){
-        BookData bookData =iBookService.insert(bookDTO);
+        String bookData =iBookService.insert(bookDTO);
         ResponseDTO responseDTO=new ResponseDTO("created book data succesfully",bookData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     //update book details by id
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDTO> updateBooksById(@PathVariable int id,@Valid @RequestBody BookDTO bookDTO){
-        BookData bookData=iBookService.updateBooksById(id,bookDTO);
+    @PutMapping("/update/{token}")
+    public ResponseEntity<ResponseDTO> updateBooksById(@PathVariable String token,@Valid @RequestBody BookDTO bookDTO){
+        BookData bookData=iBookService.updateBooksById(token,bookDTO);
         ResponseDTO responseDTO=new ResponseDTO("updated book data succesfully",bookData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     //update book details by quantity
-    @PutMapping("/update/{id}/{quantity}")
-    public ResponseEntity<ResponseDTO> updateBooksByQuantity(@PathVariable int id,@PathVariable int quantity){
-        BookData bookData=iBookService.updataBooksByQuantity(id,quantity);
+    @PutMapping("/update/{token}/{quantity}")
+    public ResponseEntity<ResponseDTO> updateBooksByQuantity(@PathVariable String token,@PathVariable int quantity){
+        BookData bookData=iBookService.updataBooksByQuantity(token,quantity);
         ResponseDTO responseDTO=new ResponseDTO("updated book data succesfully",bookData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     //delete book details by id
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> deleteBookData(@PathVariable int id){
-        iBookService.deletebookData(id);
-        ResponseDTO responseDTO=new ResponseDTO("deleted succesfully",id);
+    @DeleteMapping("/{token}")
+    public ResponseEntity<ResponseDTO> deleteBookData(@PathVariable String token){
+        iBookService.deletebookData(token);
+        ResponseDTO responseDTO=new ResponseDTO("deleted succesfully",token);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
