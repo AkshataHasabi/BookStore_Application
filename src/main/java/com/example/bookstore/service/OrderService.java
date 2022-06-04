@@ -47,7 +47,7 @@ public class OrderService implements IOrderService {
                 String token = util.createToken(newOrder.getOrderId());
                 mailService.sendEmail(newOrder.getUserRegistrationData().getEmail(), "Test Email", "Registered SuccessFully, hii: "
                         +newOrder.getOrderId()+"Please Click here to get data-> "
-                        +"http://localhost:8080/user/get/"+token);
+                        +"http://localhost:8080/order/insert/"+token);
                 log.info("Order record inserted successfully");
                 return token;
             } else {
@@ -69,7 +69,7 @@ public class OrderService implements IOrderService {
             log.info("ALL order records retrieved successfully");
             mailService.sendEmail("akshuh818@gmail.com", "Test Email", "Get your data with this token, hii: "
                     +orderData.get().getUserRegistrationData().getEmail()+"Please Click here to get all data-> "
-                    +"http://localhost:8080/addressBook/retrieve/"+token);
+                    +"http://localhost:8080/order/get/"+token);
             return listOrderData;
         }else {
             System.out.println("Exception ...Token not found!");
@@ -86,7 +86,7 @@ public class OrderService implements IOrderService {
             log.info("Order record retrieved successfully for id " + id);
             mailService.sendEmail("akshuh818@gmail.com", "Test Email", "Get your data with this token, hii: "
                     +orderData.get().getUserRegistrationData().getEmail()+"Please Click here to get data-> "
-                    +"http://localhost:8080/user/get/"+token);
+                    +"http://localhost:8080/order/get/"+token);
             return orderData.get();
         } else {
             throw new BookStoreException("Order doesn't exists");
@@ -105,7 +105,7 @@ public class OrderService implements IOrderService {
             orderRepository.save(order.get());
             mailService.sendEmail(order.get().getUserRegistrationData().getEmail(), "Test Email", "canceled order SuccessFully, hii: "
                     +order.get().getOrderId()+"Please Click here to get data of updated id-> "
-                    +"http://localhost:8080/addressBook/get/"+token);
+                    +"http://localhost:8080/order/cancel/"+token);
             return order.get();
         } else {
             throw new BookStoreException("Order Record doesn't exists");

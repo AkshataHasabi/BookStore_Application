@@ -2,7 +2,6 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.dto.BookDTO;
 import com.example.bookstore.entity.BookData;
-import com.example.bookstore.entity.UserRegistrationData;
 import com.example.bookstore.exception.BookStoreException;
 import com.example.bookstore.repository.BookRepository;
 import com.example.bookstore.util.TokenUtil;

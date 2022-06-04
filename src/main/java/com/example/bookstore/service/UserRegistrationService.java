@@ -30,7 +30,7 @@ public class UserRegistrationService implements IUserRegistrationService{
         String token = util.createToken(userRegistrationData.getUserId());
         mailService.sendEmail(userRegistrationData.getEmail(), "Test Email", "Registered SuccessFully, hii: "
                 +userRegistrationData.getFirstName()+"Please Click here to get data-> "
-                +"http://localhost:8080/user/get/"+token);
+                +"http://localhost:8080/user/insert/"+token);
         return token;
     }
 
@@ -43,7 +43,7 @@ public class UserRegistrationService implements IUserRegistrationService{
             List<UserRegistrationData> listAddressBook=userRegistrationRepository.findAll();
             mailService.sendEmail("akshuh818@gmail.com", "Test Email", "Get your data with this token, hii: "
                     +isContactPresent.get().getFirstName()+"Please Click here to get data-> "
-                    +"http://localhost:8081/addressBook/retrieve/"+token);
+                    +"http://localhost:8081/user/get/"+token);
             return listAddressBook;
         }else {
             System.out.println("Exception ...Token not found!");
@@ -87,7 +87,7 @@ public class UserRegistrationService implements IUserRegistrationService{
             userRegistrationRepository.save(newBook);
             mailService.sendEmail(newBook.getEmail(), "Test Email", "Updated SuccessFully, hii: "
                     +newBook.getFirstName()+"Please Click here to get data of updated id-> "
-                    +"http://localhost:8081/addressBook/get/"+token);
+                    +"http://localhost:8081/user/modify/"+token);
             return newBook;
         }
         throw new BookStoreException("User Details for id not found");

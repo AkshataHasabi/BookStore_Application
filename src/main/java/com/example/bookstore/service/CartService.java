@@ -32,13 +32,14 @@ public class CartService implements ICartService{
 
     //save cart details in repository method
     @Override
-    public CartData insert(CartDTO cartDTO) {
+    public String insert(CartDTO cartDTO) {
         Optional<BookData> bookData = bookRepository.findById(cartDTO.getBookId());
         Optional<UserRegistrationData> userRegistrationData = userRegistrationRepository.findById(cartDTO.getUserId());
         if (bookData.isPresent() && userRegistrationData.isPresent()) {
             CartData cartData = new CartData(userRegistrationData.get(), bookData.get(), cartDTO.getQuantity());
             cartRepository.save(cartData);
-            return cartData;
+            String token = util.createToken(cartData.getCartId());
+            return token;
         } else {
             throw new BookStoreException("Bookdata or userregistrationdata not found");
         }
@@ -46,14 +47,23 @@ public class CartService implements ICartService{
 
     //get all cart details method , return type is list
     @Override
-    public List<CartData> getAllCart() {
-        log.info("ALL order records retrieved successfully");
-        return cartRepository.findAll();
+    public List<CartData> getAllCart(String token) {
+        int id = util.decodeToken(token);
+        Optional<CartData> cartData = cartRepository.findById(id);
+        if (cartData.isPresent()) {
+            List<CartData> listOfCartdata = cartRepository.findAll();
+            log.info("ALL cart records retrieved successfully");
+            return listOfCartdata;
+        } else {
+            System.out.println("Exception ...Token not found!");
+            return null;
+        }
     }
 
     //get cart details by id
     @Override
-    public CartData  getCartById(int id) {
+    public CartData getCartById(String token) {
+        int id = util.decodeToken(token);
         Optional<CartData> cartData=cartRepository.findById(id);
         if (cartData.isPresent()){
             return cartData.get();
@@ -63,21 +73,10 @@ public class CartService implements ICartService{
         }
     }
 
-    //delete cart details by id method
-    @Override
-    public void deleteCartData(int id) {
-        Optional<CartData> deleteData=cartRepository.findById(id);
-        if (deleteData.isPresent()){
-            cartRepository.deleteById(id);
-        }
-        else {
-            throw new BookStoreException(" Did not get any cart for specific cart id ");
-        }
-    }
-
     //update cart details by id
     @Override
-    public CartData updateCartById(int id, CartDTO cartDTO) {
+    public CartData updateCartById(String token, CartDTO cartDTO) {
+        int id = util.decodeToken(token);
         Optional<CartData> cart = cartRepository.findById(id);
         Optional<BookData>  book = bookRepository.findById(cartDTO.getBookId());
         Optional<UserRegistrationData> user = userRegistrationRepository.findById(cartDTO.getUserId());
@@ -97,5 +96,17 @@ public class CartService implements ICartService{
         }
     }
 
+    //delete cart details by id method
+    @Override
+    public void deleteCartData(String token) {
+        int id = util.decodeToken(token);
+        Optional<CartData> deleteData=cartRepository.findById(id);
+        if (deleteData.isPresent()){
+            cartRepository.deleteById(id);
+        }
+        else {
+            throw new BookStoreException(" Did not get any cart for specific cart id ");
+        }
+    }
 }
 

@@ -20,17 +20,17 @@ public class CartController {
     private ICartService iCartService;
 
     //get all cart details
-    @GetMapping("/getall")
-    public ResponseEntity<ResponseDTO> getAllCart(){
-        List<CartData> cartData=iCartService.getAllCart();
+    @GetMapping("/getall/{token}")
+    public ResponseEntity<ResponseDTO> getAllCart(@PathVariable String token){
+        List<CartData> cartData=iCartService.getAllCart(token);
         ResponseDTO responseDTO=new ResponseDTO("Get call Success",cartData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     //get cart details by id
-    @GetMapping("give/{id}")
-    public ResponseEntity<ResponseDTO> getCartById(@PathVariable int id){
-        CartData cartData=iCartService.getCartById(id);
+    @GetMapping("give/{token}")
+    public ResponseEntity<ResponseDTO> getCartById(@PathVariable String token){
+        CartData cartData=iCartService.getCartById(token);
         ResponseDTO responseDTO=new ResponseDTO("Get call Success for id successfull",cartData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
@@ -38,24 +38,24 @@ public class CartController {
     //create cart details
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> addCart(@Valid @RequestBody CartDTO cartDTO){
-        CartData cartData =iCartService.insert(cartDTO);
+        String cartData =iCartService.insert(cartDTO);
         ResponseDTO responseDTO=new ResponseDTO("created cart data succesfully",cartData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     //update cart details by id
-    @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDTO> updateBooksById(@PathVariable int id,@Valid @RequestBody CartDTO cartDTO){
-        CartData cartData=iCartService.updateCartById(id,cartDTO);
+    @PutMapping("/update/{token}")
+    public ResponseEntity<ResponseDTO> updateBooksById(@PathVariable String token,@Valid @RequestBody CartDTO cartDTO){
+        CartData cartData=iCartService.updateCartById(token,cartDTO);
         ResponseDTO responseDTO=new ResponseDTO("updated cart data succesfully",cartData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 
     //delete cart details by id
-    @DeleteMapping("/cartdelete/{id}")
-    public ResponseEntity<ResponseDTO> deleteCartData(@PathVariable int id){
-        iCartService.deleteCartData(id);
-        ResponseDTO responseDTO=new ResponseDTO("deleted succesfully",id);
+    @DeleteMapping("/cartdelete/{token}")
+    public ResponseEntity<ResponseDTO> deleteCartData(@PathVariable String token){
+        iCartService.deleteCartData(token);
+        ResponseDTO responseDTO=new ResponseDTO("deleted succesfully",token);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
 }
