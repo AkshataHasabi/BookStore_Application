@@ -123,6 +123,4 @@ public class UserRegistrationController {
         ResponseDTO responseDTO=new ResponseDTO("updated user data succesfully",userRegistrationData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
-
-
 }

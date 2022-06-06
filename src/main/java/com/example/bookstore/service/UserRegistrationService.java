@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * @Service:-it is the annotation is used on the class level,
+ * it annotates class to perform service tasks like executing bussiness logic & performing calculation.
+ */
 @Service
 /**
  * Created UserService class to serve api calls done by controller layer

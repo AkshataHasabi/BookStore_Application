@@ -8,7 +8,7 @@ import java.util.Optional;
 
 /**
  * Java persistance of API specific extension of repository
- * it provides jpa related methods such as creating & delr=eting.
+ * it provides jpa related methods such as creating & deleting.
  */
 public interface UserRegistrationRepository extends JpaRepository<UserRegistrationData,Integer> {
     List<UserRegistrationData> findByEmail(String email);
