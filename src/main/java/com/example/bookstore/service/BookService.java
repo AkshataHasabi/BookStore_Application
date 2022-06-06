@@ -12,12 +12,26 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+/**
+ * Created BookService class to serve api calls done by controller layer
+ */
 public class BookService implements IBookService{
+    /**
+     * Autowired BookRepository interface to inject its dependency here
+     */
     @Autowired
     private BookRepository bookRepository;
+    /**
+     * Autowired util interface to inject its dependency here
+     */
     @Autowired
     private TokenUtil util;
-
+    /**
+     * create a method name as insert
+     * Ability to save book details to repository
+     * @param bookDTO - all book data
+     * @return - save all data
+     */
     //save book details to repo
     @Override
     public String insert(BookDTO bookDTO) {
@@ -40,7 +54,12 @@ public class BookService implements IBookService{
             return null;
         }
     }
-
+    /**
+     * create a method name as getBooksById
+     * - Ability to get book data by id
+     * @param token - book id
+     * @return - book data by id
+     */
     //get bookdata by id
     @Override
     public BookData getBooksById(String token) {
@@ -52,7 +71,12 @@ public class BookService implements IBookService{
             throw new BookStoreException("Exception with id"+id+"does not exist!!");
         }
     }
-
+    /**
+     * create a method name as getBooksByName
+     * - Ability to get book data by bookName
+     * @param bookName - book Name
+     * @return - all book data by bookname
+     */
     //get bookdata by bookname
     @Override
     public List<BookData> getBooksByName(String bookName) {
@@ -62,7 +86,12 @@ public class BookService implements IBookService{
         }
         return findBook;
     }
-
+    /**
+     * create a method name as getBooksByAutherName
+     * - Ability to get book data by book auther name
+     * @param autherName - book authername
+     * @return - all book data by id
+     */
     //get bookdata by authername
     @Override
     public List<BookData> getBooksByAutherName(String autherName) {
@@ -72,7 +101,13 @@ public class BookService implements IBookService{
         }
         return findBook;
     }
-
+    /**
+     * create a method name as updateBooksById
+     * Ability to update book data for particular id
+     * @param token - book id
+     * @param bookDTO - book data
+     * @return - updated book information in JSON format
+     */
     //update bookdata by id
     @Override
     public BookData updateBooksById(String token, BookDTO bookDTO) {
@@ -86,7 +121,13 @@ public class BookService implements IBookService{
             throw new BookStoreException("Bookdata record does not found");
         }
     }
-
+    /**
+     * create a method name as updateBookByQuantity
+     * Ability to update book data for particular id and quantity
+     * @param token - book id
+     * @param quantity - book quantity
+     * @return - updated book information in JSON format
+     */
     //update bookdata by quantity
     @Override
     public BookData updataBooksByQuantity(String token, int quantity) {
@@ -101,19 +142,32 @@ public class BookService implements IBookService{
             throw new BookStoreException("Bookdata record does not found");
         }
     }
-
+    /**
+     * create a method name as sortBookDataAsc
+     * ability to get book data in ascending order
+     * @return - all data in ascending order
+     */
     //sort bookdata in ascending order
     @Override
     public List<BookData> sortBookDataAsc() {
         return bookRepository.sortBookDataAsc();
     }
-
+    /**
+     * create a method name as sortBookDataDesc
+     * ability to get book data in descending order
+     * @return - all data in descending order
+     */
     //sort bookdata in descending order
     @Override
     public List<BookData> sortBookDataDesc() {
         return bookRepository.sortBookDataDesc();
     }
-
+    /**
+     * create a method name as deletebookData
+     * ability to delete data by particular book id
+     * @param token - book id
+     * @return -void type is there if id is not present it will send ecxception message
+     */
     //delete bookdata by id from repository
     @Override
     public void deletebookData(String token) {

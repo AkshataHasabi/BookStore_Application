@@ -14,14 +14,32 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+/**
+ * Created UserService class to serve api calls done by controller layer
+ */
 public class UserRegistrationService implements IUserRegistrationService{
+    /**
+     * Autowired UserRegistrationRepository interface to inject its dependency here
+     */
     @Autowired
     private UserRegistrationRepository userRegistrationRepository;
+    /**
+     * Autowired EmailSenderService interface to inject its dependency here
+     */
     @Autowired
     private EmailSenderService mailService;
+    /**
+     * Autowired util interface to inject its dependency here
+     */
     @Autowired
     private TokenUtil util;
 
+    /**
+     * create a method name as createUser
+     * Ability to save user details to repository
+     * @param userRegistrationDTO - user data
+     * @return - save all data
+     */
     //save the userregistration details in repository
     @Override
     public String createUser(UserRegistrationDTO userRegistrationDTO) {
@@ -33,7 +51,12 @@ public class UserRegistrationService implements IUserRegistrationService{
                 +"http://localhost:8080/user/insert/"+token);
         return token;
     }
-
+    /**
+     * create a method name as getAllUsers
+     * - Ability to get all user data by findAll() method
+     * @param token - token
+     * @return - all data
+     */
     //pass path variable as token and get all userregistration details from repository.
     @Override
     public List<UserRegistrationData> getAllUsers(String token) {
@@ -50,7 +73,12 @@ public class UserRegistrationService implements IUserRegistrationService{
             return null;
         }
     }
-
+    /**
+     * create a method name as getUserById
+     * - Ability to get user data by token
+     * @param token - token
+     * @return - user data by token
+     */
     //get userregistration details from repository by id .
     @Override
     public UserRegistrationData getUserById(String token) {
@@ -66,7 +94,12 @@ public class UserRegistrationService implements IUserRegistrationService{
             throw new BookStoreException("Record for provided userId is not found");
         }
     }
-
+    /**
+     * create a method name as getUserByEmail
+     * - Ability get user data by email
+     * @param token - user email
+     * @return - user data
+     */
     //get userregistration details from repository by email
     @Override
     public List<UserRegistrationData> getUserByEmail(String token) {
@@ -76,7 +109,12 @@ public class UserRegistrationService implements IUserRegistrationService{
         }
         return findEmail;
     }
-
+    /**
+     * create a method name as updateUser
+     * @param token - user id
+     * @param userRegistrationDTO - user data
+     * @return - update user data
+     */
     //update userregistration details by id
     @Override
     public UserRegistrationData updateUser(String token, UserRegistrationDTO userRegistrationDTO) {
@@ -92,7 +130,11 @@ public class UserRegistrationService implements IUserRegistrationService{
         }
         throw new BookStoreException("User Details for id not found");
     }
-
+    /**
+     * create a method name as login
+     * @param loginDTO - user login data (email, password)
+     * @return - user data
+     */
     //user has to login through email and password
     @Override
     public Optional<UserRegistrationData> login(LoginDTO loginDTO) {

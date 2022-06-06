@@ -6,6 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Java persistance of API specific extension of repository
+ * it provides jpa related methods such as creating & delr=eting.
+ */
 public interface UserRegistrationRepository extends JpaRepository<UserRegistrationData,Integer> {
     List<UserRegistrationData> findByEmail(String email);
 

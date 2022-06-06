@@ -18,18 +18,37 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+/**
+ * Created CartService class to serve api calls done by controller layer
+ */
 public class CartService implements ICartService{
+    /**
+     * Autowired CartRepository interface to inject its dependency here
+     */
     @Autowired
     private CartRepository cartRepository;
+    /**
+     * Autowired BookRepository interface to inject its dependency here
+     */
     @Autowired
     private BookRepository bookRepository;
+    /**
+     * Autowired  UserRegistrationRepository interface to inject its dependency here
+     */
     @Autowired
     private UserRegistrationRepository userRegistrationRepository;
+    /**
+     * Autowired util interface to inject its dependency here
+     */
     @Autowired
     private TokenUtil util;
-    @Autowired
-    private EmailSenderService mailService;
 
+    /**
+     * create a method name as insert
+     * Ability to save cart details to repository
+     * @param cartDTO - cart data
+     * @return - save all data
+     */
     //save cart details in repository method
     @Override
     public String insert(CartDTO cartDTO) {
@@ -44,7 +63,12 @@ public class CartService implements ICartService{
             throw new BookStoreException("Bookdata or userregistrationdata not found");
         }
     }
-
+    /**
+     * create a method name as getAllCart
+     * Ability to get all cart' data by findAll() method
+     * @param token - cart id
+     * @return - all cart data
+     */
     //get all cart details method , return type is list
     @Override
     public List<CartData> getAllCart(String token) {
@@ -59,7 +83,12 @@ public class CartService implements ICartService{
             return null;
         }
     }
-
+    /**
+     * create a method name as getCartById
+     * - Ability to get cart data by cartId
+     * @param token - cart id
+     * @return - cart data by id
+     */
     //get cart details by id
     @Override
     public CartData getCartById(String token) {
@@ -72,7 +101,13 @@ public class CartService implements ICartService{
             throw new BookStoreException(" Didn't find any record for this particular cartId");
         }
     }
-
+    /**
+     * create a method name as updateCartById
+     * Ability to update cart data for particular id
+     * @param token - cart id
+     * @param cartDTO - cart data
+     * @return - updated cart information in JSON format
+     */
     //update cart details by id
     @Override
     public CartData updateCartById(String token, CartDTO cartDTO) {
@@ -95,7 +130,12 @@ public class CartService implements ICartService{
             throw new BookStoreException("Cart Record doesn't exists");
         }
     }
-
+    /**
+     * create a method name as deleteCartData
+     * ability to delete data by particular cart id
+     * @param token - cart id
+     * @return - if id is not found that time it will send exception message
+     */
     //delete cart details by id method
     @Override
     public void deleteCartData(String token) {

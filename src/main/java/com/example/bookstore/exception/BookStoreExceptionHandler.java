@@ -10,9 +10,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+/**
+ * @ControllerAdvice:this annotation is a specialization of the @component annotation,
+ * which allows to handle exception accross the whole application in one global handling component.
+ */
 @ControllerAdvice
 public class BookStoreExceptionHandler {
-
+    /**
+     * this annotation used to handle the specific exception & sending the custom responses to the client.
+     * @param methodArgumentNotValidException=methodArgumentNotValidException
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseDTO> handleException(MethodArgumentNotValidException methodArgumentNotValidException){
         List<ObjectError> errorList=methodArgumentNotValidException.getBindingResult().getAllErrors();

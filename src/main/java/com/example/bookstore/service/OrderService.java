@@ -19,18 +19,41 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+/**
+ * Created OrderService class to serve api calls done by controller layer
+ */
 public class OrderService implements IOrderService {
+    /**
+     * Autowired BookRepository interface to inject its dependency here
+     */
     @Autowired
     private BookRepository bookRepository;
+    /**
+     * Autowired UserRegistrationRepository interface to inject its dependency here
+     */
     @Autowired
     private UserRegistrationRepository userRegistrationRepository;
+    /**
+     * Autowired OrderRepository interface to inject its dependency here
+     */
     @Autowired
     private OrderRepository orderRepository;
+    /**
+     * Autowired util interface to inject its dependency here
+     */
     @Autowired
     private TokenUtil util;
+    /**
+     * Autowired EmailSenderService interface to inject its dependency here
+     */
     @Autowired
     private EmailSenderService mailService;
-
+    /**
+     * create a method name as insert
+     * Ability to save order details to repository
+     * @param orderDTO - order data
+     * @return - save all data
+     */
     //save  order details in repository  method.
     @Override
     public String insert(OrderDTO orderDTO) {
@@ -57,7 +80,11 @@ public class OrderService implements IOrderService {
             throw new BookStoreException("Book or User doesn't exists");
         }
     }
-
+    /**
+     * create a method name as getAllOrder
+     * - Ability to get all order data by findAll() method
+     * @return - all data
+     */
     //get all order details method
     //return type is list
     @Override
@@ -76,7 +103,12 @@ public class OrderService implements IOrderService {
             return null;
         }
     }
-
+    /**
+     * create a method name as getOrderById
+     * - Ability to get order data by Id
+     * @param token - order id
+     * @return - order data by id
+     */
     //get all order details by id
     @Override
     public OrderData getOrderById(String token) {
@@ -92,7 +124,11 @@ public class OrderService implements IOrderService {
             throw new BookStoreException("Order doesn't exists");
         }
     }
-
+    /**
+     * create a method name as cancelOrderById
+     * @param token - order id
+     * @return - order id cancel
+     */
     //cancel order by orderid and userid
     @Override
     public OrderData cancelOrderById(String token, int userId) {
