@@ -44,20 +44,19 @@ public class BookService implements IBookService{
         String token = util.createToken(bookData.getBookId());
         return token;
     }
-
+    /**
+     * create a method name as getAllBooks
+     * Ability to get all book data by findAll() method
+     * @param  - book id
+     * @return - all book data
+     */
     //get all bookdata by findAll method
     @Override
-    public List<BookData> getAllBooks(String token) {
-        int id=util.decodeToken(token);
-        Optional<BookData> bookData=bookRepository.findById(id);
-        if (bookData.isPresent()){
+    public List<BookData> getAllBooks() {
+
             List<BookData> listOfBooks=bookRepository.findAll();
             return listOfBooks;
-        }else {
-            System.out.println("Exception ...Token not found!");
-            return null;
-        }
-    }
+            }
     /**
      * create a method name as getBooksById
      * - Ability to get book data by id
@@ -66,8 +65,7 @@ public class BookService implements IBookService{
      */
     //get bookdata by id
     @Override
-    public BookData getBooksById(String token) {
-        int id=util.decodeToken(token);
+    public BookData getBooksById(int id) {
         Optional<BookData> bookData=bookRepository.findById(id);
         if (bookData.isPresent()){
             return bookData.get();
@@ -84,11 +82,12 @@ public class BookService implements IBookService{
     //get bookdata by bookname
     @Override
     public List<BookData> getBooksByName(String bookName) {
-        List<BookData> findBook=bookRepository.findBookByName(bookName);
-        if(findBook.isEmpty()){
-            throw new BookStoreException(" Details for provided Book is not found");
-        }
-        return findBook;
+//        List<BookData> findBook=
+              return bookRepository.findBookByName(bookName);
+//        if(findBook.isEmpty()){
+//            throw new BookStoreException(" Details for provided Book is not found");
+//        }
+//        return findBook;
     }
     /**
      * create a method name as getBooksByAutherName
@@ -108,14 +107,13 @@ public class BookService implements IBookService{
     /**
      * create a method name as updateBooksById
      * Ability to update book data for particular id
-     * @param token - book id
+     * @param id - book id
      * @param bookDTO - book data
      * @return - updated book information in JSON format
      */
     //update bookdata by id
     @Override
-    public BookData updateBooksById(String token, BookDTO bookDTO) {
-        int id=util.decodeToken(token);
+    public BookData updateBooksById(int id , BookDTO bookDTO) {
         Optional<BookData> bookData=bookRepository.findById(id);
         if (bookData.isPresent()){
             BookData updateData=new BookData(id,bookDTO);
@@ -174,8 +172,7 @@ public class BookService implements IBookService{
      */
     //delete bookdata by id from repository
     @Override
-    public void deletebookData(String token) {
-        int id=util.decodeToken(token);
+    public void deletebookData(int id) {
         Optional<BookData> bookData =bookRepository.findById(id);
         if (bookData.isPresent()) {
             bookRepository.deleteById(id);

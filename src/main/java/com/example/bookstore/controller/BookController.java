@@ -21,6 +21,7 @@ import java.util.List;
  *
  * - Created controller so that we can perform rest api calls
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/book")
 public class BookController {
@@ -49,9 +50,9 @@ public class BookController {
      * @return :- showing all data
      */
     //get all books details
-    @GetMapping("/get/{token}")
-    public ResponseEntity<ResponseDTO> getAllBooks(@PathVariable String token){
-        List<BookData> bookData=iBookService.getAllBooks(token);
+    @GetMapping("/get")
+    public ResponseEntity<ResponseDTO> getAllBooks(){
+        List<BookData> bookData=iBookService.getAllBooks();
         ResponseDTO responseDTO=new ResponseDTO("Get call Success",bookData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
@@ -60,13 +61,13 @@ public class BookController {
      *           @PathVariable is a Spring annotation which indicates that a method parameter should be bound to a URI template variable. It has the following optional elements: name - name of the path variable to bind to.
      *           required - tells whether the path variable is required.
      * - Ability to get book data by id
-     * @param token - book id
+     * @param id - book id
      * @return -book information with same bookId in JSON format
      */
     //get books details by id
-    @GetMapping("id/{token}")
-    public ResponseEntity<ResponseDTO> getBookById(@PathVariable String token){
-        BookData bookData=iBookService.getBooksById(token);
+    @GetMapping("id/{id}")
+    public ResponseEntity<ResponseDTO> getBookById(@PathVariable int id){
+        BookData bookData=iBookService.getBooksById(id);
         ResponseDTO responseDTO=new ResponseDTO("Get call Success for id successfull",bookData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
@@ -116,15 +117,15 @@ public class BookController {
      * @RequestBody:- it is used to bind http request body with a dto object in method parameter
      * Ability to update book data for particular id
      * @apiNote - accepts the book data in JSON format and updates the book having same bookId from database
-     * @param token - book id
+     * @param id - book id
      * @valid this will tell spring to go & validate the data passed into the controller.
      * @param bookDTO -  represents object of bookDTO class
      * @return - updated book information in JSON format
      */
     //update book details by id
-    @PutMapping("/update/{token}")
-    public ResponseEntity<ResponseDTO> updateBooksById(@PathVariable String token,@Valid @RequestBody BookDTO bookDTO){
-        BookData bookData=iBookService.updateBooksById(token,bookDTO);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseDTO> updateBooksById(@PathVariable int id ,@Valid @RequestBody BookDTO bookDTO){
+        BookData bookData=iBookService.updateBooksById(id,bookDTO);
         ResponseDTO responseDTO=new ResponseDTO("updated book data succesfully",bookData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
@@ -153,10 +154,10 @@ public class BookController {
      * @return -  bookId and Acknowledgment message
      */
     //delete book details by id
-    @DeleteMapping("/{token}")
-    public ResponseEntity<ResponseDTO> deleteBookData(@PathVariable String token){
-        iBookService.deletebookData(token);
-        ResponseDTO responseDTO=new ResponseDTO("deleted succesfully",token);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDTO> deleteBookData(@PathVariable int id){
+        iBookService.deletebookData(id);
+        ResponseDTO responseDTO=new ResponseDTO("deleted succesfully",id);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
     /**

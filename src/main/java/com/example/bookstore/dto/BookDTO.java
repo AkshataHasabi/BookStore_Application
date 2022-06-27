@@ -13,9 +13,9 @@ import javax.validation.constraints.Pattern;
  */
 @Data
 public class BookDTO {
-    @NotBlank(message = "book name should be not blank")
+//    @NotBlank(message = "book name should be not blank")
     private String bookName;
-    @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$",message ="auther name pattern is invalid")
+//    @Pattern(regexp = "^[A-Z]{1}[a-zA-Z\\s]{2,}$",message ="auther name pattern is invalid")
     private String autherName;
     @NotBlank(message = "bookdescription should not be blank")
     @NotEmpty(message = "bookdescription should not be empty")

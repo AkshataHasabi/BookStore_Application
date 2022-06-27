@@ -2,6 +2,7 @@ package com.example.bookstore.repository;
 
 import com.example.bookstore.entity.UserRegistrationData;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,4 +15,7 @@ public interface UserRegistrationRepository extends JpaRepository<UserRegistrati
     List<UserRegistrationData> findByEmail(String email);
 
     Optional<UserRegistrationData> findByEmailAndPassword(String email, String password);
+
+    @Query(value = "select * from user_data where email= :email", nativeQuery = true)
+    Optional<UserRegistrationData> findByEmailId(String email);
 }

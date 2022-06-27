@@ -10,8 +10,12 @@ import java.util.Optional;
 public interface IUserRegistrationService {
     String createUser(UserRegistrationDTO userRegistrationDTO);
     List<UserRegistrationData> getAllUsers(String token);
-    UserRegistrationData getUserById(String token);
+    UserRegistrationData getUserById(int id);
     List<UserRegistrationData> getUserByEmail(String token);
     UserRegistrationData updateUser(String token,UserRegistrationDTO userRegistrationDTO);
     Optional<UserRegistrationData> login(LoginDTO loginDTO);
+
+    String getToken(String email);
+
+    List<UserRegistrationData> getAllUserDataByToken(String token);
 }

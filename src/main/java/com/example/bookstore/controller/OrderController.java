@@ -21,6 +21,7 @@ import java.util.List;
  *
  * - Created controller so that we can perform rest api calls
  */
+@CrossOrigin
 @RestController
 @RequestMapping("order")
 /**

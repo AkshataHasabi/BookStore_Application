@@ -9,9 +9,13 @@ import com.example.bookstore.entity.CartData;
 import java.util.List;
 
 public interface ICartService {
-    String insert(CartDTO cartDTO);
-    List<CartData> getAllCart(String token);
-    CartData getCartById(String token);
-    CartData updateCartById(String token,CartDTO cartDTO);
-    void deleteCartData(String token);
+    CartData insert(CartDTO cartDTO);
+    List<CartData> getAllCart();
+    CartData getCartById(int id);
+    CartData updateCartById(int id,CartDTO cartDTO);
+    void deleteCartData(int id);
+    CartData updateCartByIds(Integer id, Integer quantity);
+    CartData getCartRecordByBookId(Integer bookId);
+
+    List<CartData> getCartRecordByUserId(Integer userId);
 }

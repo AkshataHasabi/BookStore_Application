@@ -79,18 +79,16 @@ public class UserRegistrationService implements IUserRegistrationService{
     /**
      * create a method name as getUserById
      * - Ability to get user data by token
-     * @param token - token
+     * @param id - token
      * @return - user data by token
      */
     //get userregistration details from repository by id .
     @Override
-    public UserRegistrationData getUserById(String token) {
-        int id=util.decodeToken(token);
+    public UserRegistrationData getUserById(int id) {
+
         Optional<UserRegistrationData> getUser=userRegistrationRepository.findById(id);
         if(getUser.isPresent()){
-            mailService.sendEmail("akshuh818@gmail.com", "Test Email", "Get your data with this token, hii: "
-                    +getUser.get().getEmail()+"Please Click here to get data-> "
-                    +"http://localhost:8080/user/get/"+token);
+
             return getUser.get();
         }
         else {
@@ -147,5 +145,27 @@ public class UserRegistrationService implements IUserRegistrationService{
         }else {
             return null;
         }
+    }
+
+    @Override
+    public String getToken(String email) {
+        Optional<UserRegistrationData> userRegistration=userRegistrationRepository.findByEmailId(email);
+        String token=util.createToken(userRegistration.get().getUserId());
+        mailService.sendEmail("akshuh818@gmail.com","Welcome User:  "+userRegistration.get().getFirstName(),"Token for changing password is :"+token);
+        return token;
+    }
+
+    @Override
+    public List<UserRegistrationData> getAllUserDataByToken(String token) {
+        int id= Math.toIntExact(util.decodeToken(token));
+        Optional<UserRegistrationData> isContactPresent=userRegistrationRepository.findById(id);
+        if(isContactPresent.isPresent()) {
+            List<UserRegistrationData> listOfUsers=userRegistrationRepository.findAll();
+            mailService.sendEmail("akshuh818@gmail.com", "Test Email", "Get your data with this token, hii: "
+                    +isContactPresent.get().getEmail()+"Please Click here to get data-> ");
+            return listOfUsers;
+        }else {
+            System.out.println("Exception ...Token not found!");
+            return null;	}
     }
 }

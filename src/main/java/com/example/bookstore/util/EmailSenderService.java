@@ -36,4 +36,10 @@ public class EmailSenderService {
         System.out.println("Mail sent to the User...!");
     }
 
+    public String getLink(String token)
+    {
+
+        return "http://localhost:8080/userregistrationservice/verify/" + token;
+    }
+
 }

@@ -24,8 +24,9 @@ import java.util.Optional;
  *
  * - Created controller so that we can perform rest api calls
  */
+@CrossOrigin
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 /**
  * create a class name as UserRegistrationController
  */
@@ -45,7 +46,7 @@ public class UserRegistrationController {
      * @return fields with Http status
      */
     //get all users details
-    @GetMapping("/get/{token}")
+    @GetMapping("/get")
     public ResponseEntity<ResponseDTO> getAllUsers(@PathVariable String token){
         List<UserRegistrationData> userRegistrationData =iUserRegistrationService.getAllUsers(token);
         ResponseDTO responseDTO=new ResponseDTO("Get call Success",userRegistrationData);
@@ -56,9 +57,9 @@ public class UserRegistrationController {
      * Ability to get a record by token
      */
     //get users details by id
-    @GetMapping("/{token}")
-    public ResponseEntity<ResponseDTO> getUserById(@PathVariable String token){
-        UserRegistrationData userRegistrationData=iUserRegistrationService.getUserById(token);
+    @GetMapping("/get/{id}")
+    public ResponseEntity<ResponseDTO> getUserById(@PathVariable int id){
+        UserRegistrationData userRegistrationData=iUserRegistrationService.getUserById(id);
         ResponseDTO responseDTO=new ResponseDTO("Get call Success for id successfull",userRegistrationData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
@@ -122,5 +123,20 @@ public class UserRegistrationController {
         UserRegistrationData userRegistrationData=iUserRegistrationService.updateUser(token,userRegistrationDTO);
         ResponseDTO responseDTO=new ResponseDTO("updated user data succesfully",userRegistrationData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/getToken/{email}")
+    public ResponseEntity<ResponseDTO> getToken(@PathVariable String email){
+        String generatedToken=iUserRegistrationService.getToken(email);
+        ResponseDTO responseDTO=new ResponseDTO("Token for mail id sent on mail successfully",generatedToken);
+        return new ResponseEntity(responseDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAll/{token}")
+    public ResponseEntity<ResponseDTO> getAllUserDataByToken(@PathVariable String token)
+    {
+        List<UserRegistrationData> listOfUser = iUserRegistrationService.getAllUserDataByToken(token);
+        ResponseDTO dto = new ResponseDTO("Data retrieved successfully (:",listOfUser);
+        return new ResponseEntity(dto,HttpStatus.OK);
     }
 }
