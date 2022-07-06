@@ -106,7 +106,7 @@ public class BookController {
     //create book details
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> addBooks(@Valid @RequestBody BookDTO bookDTO){
-        String bookData =iBookService.insert(bookDTO);
+        BookData bookData =iBookService.insert(bookDTO);
         ResponseDTO responseDTO=new ResponseDTO("created book data succesfully",bookData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
@@ -136,21 +136,21 @@ public class BookController {
      *
      * Ability to update book data for particular id and book quantity
      * @apiNote - accepts the book data in JSON format and updates the book having same bookId from database
-     * @param token - book id
+     * @param id - book id
      * @param quantity -  book quantity
      * @return - updated book information in JSON format
      */
     //update book details by quantity
-    @PutMapping("/update/{token}/{quantity}")
-    public ResponseEntity<ResponseDTO> updateBooksByQuantity(@PathVariable String token,@PathVariable int quantity){
-        BookData bookData=iBookService.updataBooksByQuantity(token,quantity);
+    @PutMapping("/update/{id}/{quantity}")
+    public ResponseEntity<ResponseDTO> updateBooksByQuantity(@PathVariable int id,@PathVariable int quantity){
+        BookData bookData=iBookService.updataBooksByQuantity(id,quantity);
         ResponseDTO responseDTO=new ResponseDTO("updated book data succesfully",bookData);
         return  new ResponseEntity<ResponseDTO>(responseDTO, HttpStatus.OK);
     }
     /**
      * - Ability to delete book data for particular id
      * @apiNote - accepts the bookId and deletes the data of that book from DB
-     * @param token - represents book id
+     * @param id- represents book id
      * @return -  bookId and Acknowledgment message
      */
     //delete book details by id

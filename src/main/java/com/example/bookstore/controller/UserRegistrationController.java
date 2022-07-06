@@ -139,4 +139,12 @@ public class UserRegistrationController {
         ResponseDTO dto = new ResponseDTO("Data retrieved successfully (:",listOfUser);
         return new ResponseEntity(dto,HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{userid}")
+    public ResponseEntity<ResponseDTO> deleteUser(@PathVariable("userid") int userid) {
+        iUserRegistrationService.deleteUser(userid);
+        ResponseDTO response = new ResponseDTO("Delete call success for id ", "deleted id:" + userid);
+        return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
+
+    }
 }

@@ -63,7 +63,8 @@ public class UserRegistrationService implements IUserRegistrationService{
     //pass path variable as token and get all userregistration details from repository.
     @Override
     public List<UserRegistrationData> getAllUsers(String token) {
-        int id=util.decodeToken(token);
+        int id= Math.toIntExact(util.decodeToken(token));
+//        int id=util.decodeToken(token);
         Optional<UserRegistrationData> isContactPresent=userRegistrationRepository.findById(id);
         if(isContactPresent.isPresent()) {
             List<UserRegistrationData> listAddressBook=userRegistrationRepository.findAll();
@@ -167,5 +168,12 @@ public class UserRegistrationService implements IUserRegistrationService{
         }else {
             System.out.println("Exception ...Token not found!");
             return null;	}
+    }
+
+    @Override
+    public void deleteUser(int userid) {
+        UserRegistrationData userData = this.getUserById(userid);
+        userRegistrationRepository.delete(userData);
+
     }
 }

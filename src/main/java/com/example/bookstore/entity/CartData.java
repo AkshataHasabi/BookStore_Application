@@ -1,7 +1,11 @@
 package com.example.bookstore.entity;
 
 import com.example.bookstore.dto.CartDTO;
+
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,6 +15,8 @@ import javax.persistence.*;
  * @Entity:-it tells hibernate to create table in DB
  * @Table:-specifies  the mapped table inDB
 */
+//@JsonFormat(shape = JsonFormat.Shape.ARRAY)
+//@JsonPropertyOrder({ "userId", "bookId", "quantity"})
 @Data
 @Entity
 @Table(name = "CartData")
@@ -20,10 +26,10 @@ public class CartData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int cartId;
     //@joincolumn:-refers to primary table
-    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
-    @OneToOne(fetch = FetchType.LAZY)
+   @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UserRegistrationData userRegistrationData;
+    private UserRegistrationData user;
     @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
@@ -33,15 +39,15 @@ public class CartData {
     public CartData() {
     }
 
-    public CartData(int cartId,UserRegistrationData userRegistrationData, BookData bookData, int quantity) {
+    public CartData(int cartId,UserRegistrationData user, BookData bookData, int quantity) {
         this.cartId=cartId;
-        this.userRegistrationData = userRegistrationData;
+        this.user = user;
         this.bookData = bookData;
         this.quantity = quantity;
     }
 
-    public CartData(UserRegistrationData userRegistrationData, BookData bookData, int quantity) {
-        this.userRegistrationData = userRegistrationData;
+    public CartData(UserRegistrationData user, BookData bookData, int quantity) {
+        this.user= user;
         this.bookData = bookData;
         this.quantity = quantity;
     }

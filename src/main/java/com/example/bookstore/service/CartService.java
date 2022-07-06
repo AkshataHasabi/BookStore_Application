@@ -46,6 +46,9 @@ public class CartService implements ICartService{
     @Autowired
     private TokenUtil util;
 
+    @Autowired
+    TokenUtil tokenUtil;
+
     /**
      * create a method name as insert
      * Ability to save cart details to repository
@@ -56,7 +59,8 @@ public class CartService implements ICartService{
     @Override
     public CartData insert(CartDTO cartDTO) {
         Optional<BookData> bookData = bookRepository.findById(cartDTO.getBookId());
-        Optional<UserRegistrationData> userRegistrationData = userRegistrationRepository.findById(cartDTO.getUserId());
+        Long userId = Long.valueOf(tokenUtil.decodeToken(cartDTO.getToken()));
+        Optional<UserRegistrationData> userRegistrationData = userRegistrationRepository.findById(Math.toIntExact(userId));
         if (bookData.isPresent() && userRegistrationData.isPresent()) {
             CartData cartData = new CartData(userRegistrationData.get(), bookData.get(), cartDTO.getQuantity());
             return cartRepository.save(cartData);
@@ -108,7 +112,7 @@ public class CartService implements ICartService{
 //    }
 
     public CartData getCartRecordByBookId(Integer bookId) {
-        Optional<CartData> cart = cartRepository.findByBookId(bookId);
+        Optional<CartData> cart = cartRepository.findById(bookId);
         if(cart.isEmpty()) {
             return null;
             //throw new BookStoreException("Cart Record doesn't exists");
@@ -122,14 +126,14 @@ public class CartService implements ICartService{
     @Override
     public List<CartData> getCartRecordByUserId(Integer userId) {
         List<CartData> cart = cartRepository.findByUserId(userId);
-//				if(cart.isEmpty()) {
-//					//return null;
+				if(cart.isEmpty()) {
+					return null;
 //					//throw new BookStoreException("Cart Record doesn't exists");
-//				}
-//				else {
+				}
+				else {
             log.info("Cart record retrieved successfully for book id "+userId);
             return cart;
-            //}
+                }
         }
 
 

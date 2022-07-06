@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
  */
 @Data
 public class OrderDTO {
+    private  String token;
     private int quantity;
     @NotEmpty(message="address should not be empty")
     private String address;

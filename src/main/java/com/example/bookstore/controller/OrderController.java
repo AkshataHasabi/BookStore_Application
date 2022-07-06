@@ -47,20 +47,20 @@ public class OrderController {
     //create order data
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> insertOrder(@Valid @RequestBody OrderDTO orderdto){
-        String orderData = iOrderService.insert(orderdto);
+        OrderData orderData = iOrderService.insert(orderdto);
         ResponseDTO responseDTO = new ResponseDTO("Order placed successfully !",orderData);
         return new ResponseEntity(responseDTO, HttpStatus.CREATED);
     }
     /**
      * Ability to cal api to retrieve all order
-     * @param token - represent  id token
+     * @param  - represent  id token
      *Ability to retrieve all data from the order repository
      *@return -list of orders
      */
     //get all order details
-    @GetMapping("/getallorders/{token}")
-    public ResponseEntity<ResponseDTO> getAllOrder(@PathVariable String token){
-        List<OrderData> orderData = iOrderService.getAllOrder(token);
+    @GetMapping("/getallorders")
+    public ResponseEntity<ResponseDTO> getAllOrder(){
+        List<OrderData> orderData = iOrderService.getAllOrder();
         ResponseDTO responseDTO = new ResponseDTO("All records retrieved successfully !",orderData);
         return new ResponseEntity(responseDTO,HttpStatus.OK);
     }
@@ -88,5 +88,19 @@ public class OrderController {
         OrderData orderData = iOrderService.cancelOrderById(token,userId);
         ResponseDTO responseDTO = new ResponseDTO("order record canceled successfully !",orderData);
         return new ResponseEntity(responseDTO,HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ResponseDTO> deleteOrderRecord(@PathVariable Integer id){
+        OrderData newOrder = iOrderService.deleteOrderRecord(id);
+        ResponseDTO dto = new ResponseDTO("Record deleted successfully !",newOrder);
+        return new ResponseEntity(dto,HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/totalPrice")
+    public ResponseEntity<ResponseDTO> getTotalPrice(){
+        Integer newOrder = iOrderService.totalPrice();
+        ResponseDTO dto = new ResponseDTO("Total Price calculated successfully !",newOrder);
+        return new ResponseEntity(dto,HttpStatus.ACCEPTED);
     }
 }

@@ -18,4 +18,6 @@ public interface IUserRegistrationService {
     String getToken(String email);
 
     List<UserRegistrationData> getAllUserDataByToken(String token);
+
+    void deleteUser(int userid);
 }

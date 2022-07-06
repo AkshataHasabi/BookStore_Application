@@ -16,7 +16,7 @@ public interface BookRepository extends JpaRepository<BookData,Integer> {
      * @Query:- in order to define SQL to execute for spring data repo method,
      * its value attribute contains the sql to execute, we can also use the native sql to define our query.
      */
-    @Query(value = "select * from book_data where book_name= :bookName",nativeQuery=true)
+    @Query(value = "select * from book_data where book_name LIKE :bookName%",nativeQuery=true)
     List<BookData> findBookByName(String bookName);
 
     @Query(value = "select * from book_data where auther_name=auther_name",nativeQuery=true)

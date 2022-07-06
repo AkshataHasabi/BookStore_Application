@@ -8,8 +8,12 @@ import com.example.bookstore.entity.OrderData;
 import java.util.List;
 
 public interface IOrderService {
-     String insert(OrderDTO orderDTO);
-     List<OrderData> getAllOrder(String token);
+     OrderData insert(OrderDTO orderDTO);
+     List<OrderData> getAllOrder();
      OrderData getOrderById(String token);
      OrderData cancelOrderById(String token, int userId);
+
+     OrderData deleteOrderRecord(Integer id);
+
+     Integer totalPrice();
      }

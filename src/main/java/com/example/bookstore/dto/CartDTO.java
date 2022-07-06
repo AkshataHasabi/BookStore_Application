@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class CartDTO {
+    private String token;
     private int userId;
     private int bookId;
     @NotNull(message = "quantity should not be null")

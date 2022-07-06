@@ -38,11 +38,9 @@ public class BookService implements IBookService{
      */
     //save book details to repo
     @Override
-    public String insert(BookDTO bookDTO) {
+    public BookData insert(BookDTO bookDTO) {
         BookData bookData=new BookData(bookDTO);
-        bookRepository.save(bookData);
-        String token = util.createToken(bookData.getBookId());
-        return token;
+         return bookRepository.save(bookData);
     }
     /**
      * create a method name as getAllBooks
@@ -60,7 +58,7 @@ public class BookService implements IBookService{
     /**
      * create a method name as getBooksById
      * - Ability to get book data by id
-     * @param token - book id
+     * @param id - book id
      * @return - book data by id
      */
     //get bookdata by id
@@ -126,14 +124,13 @@ public class BookService implements IBookService{
     /**
      * create a method name as updateBookByQuantity
      * Ability to update book data for particular id and quantity
-     * @param token - book id
+     * @param id - book id
      * @param quantity - book quantity
      * @return - updated book information in JSON format
      */
     //update bookdata by quantity
     @Override
-    public BookData updataBooksByQuantity(String token, int quantity) {
-        int id=util.decodeToken(token);
+    public BookData updataBooksByQuantity(int id, int quantity) {
         Optional<BookData> bookData=bookRepository.findById(id);
         if (bookData.isPresent()){
             BookData bookData1=new BookData();
@@ -167,7 +164,7 @@ public class BookService implements IBookService{
     /**
      * create a method name as deletebookData
      * ability to delete data by particular book id
-     * @param token - book id
+     * @param id - book id
      * @return -void type is there if id is not present it will send ecxception message
      */
     //delete bookdata by id from repository
