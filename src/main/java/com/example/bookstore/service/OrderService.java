@@ -174,7 +174,7 @@ public class OrderService implements IOrderService {
         List<OrderData> order = orderRepository.findAll();
         Integer totalPrice = 0;
         for(int i =0; i<order.size();i++){
-            totalPrice +=order.get(i).getPrice() + (order.get(i).getQuantity());
+            totalPrice +=order.get(i).getPrice();
         }
         return totalPrice;
     }
